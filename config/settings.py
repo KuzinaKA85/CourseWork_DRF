@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
+    "habits",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -106,13 +108,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-AUTH_USER_MODEL = "users.User"
-
 STATIC_URL = "static/"
+
+AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
