@@ -417,6 +417,18 @@ files = [
 Django = ">=4.2"
 
 [[package]]
+name = "django-grappelli"
+version = "4.0.3"
+description = "A jazzy skin for the Django Admin-Interface."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "django_grappelli-4.0.3-py2.py3-none-any.whl", hash = "sha256:6d7ee985f51e8a61c4ac108a13d24ee340626ca0e9f2fd415958a3ea264db761"},
+    {file = "django_grappelli-4.0.3.tar.gz", hash = "sha256:90f53247d51a588a0553563fd85b6620b6b30c4f7969860ec325bfb97c2609df"},
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.17.1"
 description = "Web APIs for Django, made easy."
@@ -1198,4 +1210,4 @@ zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11"
-content-hash = "94911c6c088def2d1e46f6bb118105995013f036201c34f71d57ad6ec0232a54"
+content-hash = "756212f709d2b3f62bb4388949db46542a267e10fdcf2489d4ed8df2b3db5647"

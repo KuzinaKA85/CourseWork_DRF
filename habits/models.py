@@ -16,22 +16,23 @@ class Habit(models.Model):
         help_text="Владелец привычки",
     )
     # Место выполнеия
-    place = models.CharField(max_length=200, verbose_name="Место", help_text="Дом")
+    place = models.CharField(max_length=200, verbose_name="Место", help_text="Где вы будете выполнять привычку (например: 'Дом', 'Офис', 'Спортзал'")
+
     # Время, в которое выполняем привычку
-    time = models.TimeField(verbose_name="Время", help_text="07:00")
+    time = models.TimeField(verbose_name="Время", help_text="Во сколько выполнять привычку (например: 07:00, 15:30, 21:00")
 
     # Действие (привычка)
     action = models.CharField(
         max_length=300,
         verbose_name="Действие",
-        help_text="Сделать дыхательную гимнастику",
+        help_text="Что нужно сделать (например: 'Сделать дыхательную гимнастику', 'Выпить стакан воды')",
     )
 
     # Признак приятной привычки (это вознаграждение)
     is_pleasant = models.BooleanField(
         default=False,
         verbose_name="Приятная привычка",
-        help_text="Отметьте, если это приятная привычка, которая будут вознаграждением за выполнение полезной привычки",
+        help_text="Отметьте, если это приятная привычка, которая будет вознаграждением за выполнение полезной привычки",
     )
 
     # Связанная привычка (только для полезных привычек)
@@ -58,14 +59,14 @@ class Habit(models.Model):
         null=True,
         blank=True,
         verbose_name="Вознаграждение",
-        help_text="Съесть вкусный йогурт",
+        help_text="Чем себя вознаградить (например: 'Съесть вкусный йогурт', 'Послушать любимую музыку', 'Посмотреть сериал')",
     )
 
     # Время выполнения в секундах
     duration = models.PositiveIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(120)],
         verbose_name="Время на выполнение (сек)",
-        help_text="Время выполнения не более 120 секунд (2 минуты)",
+        help_text="Сколько времени займет выполнение (не более 120 секунд (2 минуты))",
     )
 
     # Публичность привычки

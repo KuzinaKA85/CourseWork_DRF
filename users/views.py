@@ -1,29 +1,36 @@
-from django.contrib.auth import login
-
-from django.core.mail import send_mail
-from django.urls import reverse_lazy
-
-from django.views.generic import CreateView
-
-from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from rest_framework import generics, viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from users.models import User
+from users.serializers import UserSerializer
 
 
-class UserRegisterView(CreateView):
-    model = User
-    form_class = UserRegisterForm
-    template_name = "users/user_form.html"
-    success_url = reverse_lazy("users:login")
+class UserCreateAPIView(generics.CreateAPIView):
+    """
+    Регистрация нового пользователя
+    Доступно всем (AllowAny)
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        send_mail(
-            subject="Добро пожаловать в наш сервис",
-            message="Спасибо, что зарегистрировались в нашем сервисе!",
-            from_email=EMAIL_HOST_USER,
-            recipient_list=[user.email],
-        )
-        return super().form_valid(form)
+    def perform_create(self, serializer):
+        # Сериализатор сам обрабатывает хеширование пароля
+        serializer.save(is_active=True)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    Управление пользователями (только для админов)
+    Просмотр, редактирование, удаление пользователей
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        # Обычный пользователь видит только себя
+        user = self.request.user
+        if user.is_superuser:
+            return User.objects.all()
+        return User.objects.filter(id=user.id)
 
