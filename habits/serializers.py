@@ -91,4 +91,4 @@ class HabitPublicSerializer(serializers.ModelSerializer):
             "duration",
             "created_at",
         ]
-        read_only_fields = "__all__"
+        read_only_fields = fields
