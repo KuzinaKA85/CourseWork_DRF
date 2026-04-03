@@ -16,7 +16,7 @@ class HabitAdmin(admin.ModelAdmin):
         "periodicity",
         "user",
         "is_public",
-        "created_at"
+        "created_at",
     )
     list_filter = ("action", "user", "is_public", "created_at")
     search_fields = ("action", "user", "is_public")

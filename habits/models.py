@@ -16,10 +16,17 @@ class Habit(models.Model):
         help_text="Владелец привычки",
     )
     # Место выполнеия
-    place = models.CharField(max_length=200, verbose_name="Место", help_text="Где вы будете выполнять привычку (например: 'Дом', 'Офис', 'Спортзал'")
+    place = models.CharField(
+        max_length=200,
+        verbose_name="Место",
+        help_text="Где вы будете выполнять привычку (например: 'Дом', 'Офис', 'Спортзал'",
+    )
 
     # Время, в которое выполняем привычку
-    time = models.TimeField(verbose_name="Время", help_text="Во сколько выполнять привычку (например: 07:00, 15:30, 21:00")
+    time = models.TimeField(
+        verbose_name="Время",
+        help_text="Во сколько выполнять привычку (например: 07:00, 15:30, 21:00",
+    )
 
     # Действие (привычка)
     action = models.CharField(

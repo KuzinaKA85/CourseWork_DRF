@@ -9,6 +9,7 @@ class UserCreateAPIView(generics.CreateAPIView):
     Регистрация нового пользователя
     Доступно всем (AllowAny)
     """
+
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
@@ -23,6 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
     Управление пользователями (только для админов)
     Просмотр, редактирование, удаление пользователей
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
@@ -33,4 +35,3 @@ class UserViewSet(viewsets.ModelViewSet):
         if user.is_superuser:
             return User.objects.all()
         return User.objects.filter(id=user.id)
-

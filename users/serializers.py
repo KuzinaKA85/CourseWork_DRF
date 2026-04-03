@@ -9,14 +9,19 @@ class UserSerializer(serializers.ModelSerializer):
         write_only=True,  # пароль только для записи (не показывается в ответе)
         required=True,
         min_length=6,
-        help_text="Пароль (минимум 6 символов)"
+        help_text="Пароль (минимум 6 символов)",
     )
 
     class Meta:
         model = User
         fields = [
-            "id", "email", "password", "phone_number",
-            "avatar", "country", "is_active"
+            "id",
+            "email",
+            "password",
+            "phone_number",
+            "avatar",
+            "country",
+            "is_active",
         ]
         read_only_fields = ["id", "is_active"]
 
