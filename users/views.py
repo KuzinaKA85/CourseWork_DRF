@@ -5,10 +5,7 @@ from users.serializers import UserSerializer
 
 
 class UserCreateAPIView(generics.CreateAPIView):
-    """
-    Регистрация нового пользователя
-    Доступно всем (AllowAny)
-    """
+    """Регистрация нового пользователя. Доступно всем (AllowAny)"""
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -20,10 +17,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    Управление пользователями (только для админов)
-    Просмотр, редактирование, удаление пользователей
-    """
+    """Управление пользователями (просмотр, редактирование, удаление пользователей)"""
 
     queryset = User.objects.all()
     serializer_class = UserSerializer

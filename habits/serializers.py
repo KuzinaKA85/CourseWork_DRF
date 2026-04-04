@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from habits.models import Habit
-from habits.validators import validate_time_to_complete, validate_periodicity
 
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -30,13 +29,18 @@ class HabitSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Валидация при создании/обновлении"""
 
-        # Проверка времени выполнения
-        if data.get("duration"):
-            validate_time_to_complete(data["duration"])
+        # Проверка времени выполнения, не больше 120 сек
+        if data.get("duration", 0) > 120:
+            raise serializers.ValidationError(
+                {"duration": "Время выполнения не может превышать 120 секунд."}
+            )
 
-        # Проверка периодичности
-        if data.get("periodicity"):
-            validate_periodicity(data["periodicity"])
+        # Проверка периодичности от 1 до 7 дней
+        periodicity = data.get("periodicity", 1)
+        if periodicity < 1 or periodicity > 7:
+            raise serializers.ValidationError(
+                {"periodicity": "Периодичность должна быть от 1 до 7 дней."}
+            )
 
         # Нельзя одновременно указать reward и related_habit
         if data.get("reward") and data.get("related_habit"):

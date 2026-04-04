@@ -14,6 +14,7 @@ class UserAdmin(admin.ModelAdmin):
         "is_active",
         "is_staff",
         "is_superuser",
+        "telegram_chat_id",
     )
     list_filter = (
         "email",

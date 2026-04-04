@@ -30,6 +30,9 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=True)
+    telegram_chat_id = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Telegram ID"
+    )
 
     objects = UserManager()
 

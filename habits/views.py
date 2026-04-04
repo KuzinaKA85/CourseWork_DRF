@@ -1,7 +1,6 @@
 from rest_framework import generics, permissions
 from habits.models import Habit
 from habits.serializers import HabitSerializer, HabitPublicSerializer
-from habits.permissions import IsOwner
 from habits.pagination import HabitPagination
 
 
@@ -23,7 +22,7 @@ class HabitDetailView(generics.RetrieveUpdateDestroyAPIView):
     """Просмотр, редактирование, удаление"""
 
     serializer_class = HabitSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
