@@ -185,6 +185,15 @@ CSRF_TRUSTED_ORIGINS = [
     "https://read-and-write.example.com",
 ]
 
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://redis:6379/1",
+        }
+    }
+
 CELERY_BEAT_SCHEDULE = {
     "check-habits": {
         "task": "telegram_bot.tasks.check_habits",
