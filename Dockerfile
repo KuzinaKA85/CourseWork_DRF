@@ -1,10 +1,8 @@
-# Используем официальный slim-образ Python 3.11
 FROM python:3.11-slim
 
-# Устанавливаем рабочую директорию в контейнере
 WORKDIR /app
 
-# Устанавливаем зависимости системы
+# Устанавливаем системные зависимости
 RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
@@ -12,38 +10,23 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем Poetry
-RUN pip install poetry
-
-# Добавляем Poetry в PATH
-ENV PATH="/root/.local/bin:$PATH"
-
-# Копируем pyproject.toml и poetry.lock для установки зависимостей
-COPY pyproject.toml poetry.lock ./
-
-# Устанавливаем зависимости Python с помощью Poetry
-# RUN poetry install --no-root
+# Копируем файлы зависимостей
+COPY requirements.txt .
 
 # Устанавливаем зависимости
-RUN poetry install --no-interaction --no-ansi --no-root
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем исходный код приложения в контейнер
+# Копируем весь проект
 COPY . .
 
-# # Определяем переменные окружения
-# ENV SECRET_KEY="SECRET_KEY"
-# ENV CELERY_BROKER_URL="CELERY_BROKER_URL"
-# ENV CELERY_BACKEND="CELERY_RESULT_BACKEND"
-
-# Создаем директорию для медиафайлов
+# Создаём папки для статики и медиа
 RUN mkdir -p /app/media /app/staticfiles
 
-# Собираем статику (если есть manage.py)
-RUN poetry run python manage.py collectstatic --noinput || true
+# Собираем статику (через poetry run)
+RUN python manage.py collectstatic --noinput --no-input || true
 
-# Пробрасываем порт, который будет использовать Django
+# Открываем порт 8000 (внутри контейнера)
 EXPOSE 8000
 
-# Команда для запуска приложения
-CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
-# CMD ["poetry", "run", "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Запускаем через poetry run
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
