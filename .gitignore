@@ -206,3 +206,6 @@ database.ini
 
 reports/
 test_report.json
+
+pyproject.toml
+poetry.lock
